@@ -1,0 +1,14 @@
+# Set some warning values for temperature (in Celsius)
+[temp]
+max = 100
+min = 0
+
+# Raspberry Pi SPI Config
+[pi]
+# Software SPI
+CLK = 25
+CS  = 24
+DO  = 18
+# Hardware SPI
+SPI_PORT   = 0
+SPI_DEVICE = 0
