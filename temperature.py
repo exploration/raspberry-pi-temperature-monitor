@@ -26,15 +26,14 @@
 #logging.basicConfig(level=logging.DEBUG)
 
 import time, subprocess
+import toml
 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MAX31855.MAX31855 as MAX31855
 
 
-
-# GLOBAL/SETUP
-WARNINGTEMP = 100 #celcius
-
+with open("config.toml") as conffile:
+  conf = toml.loads(conffile.read())
 
 # Define a function to convert celsius to fahrenheit.
 def c_to_f(c):
@@ -47,15 +46,9 @@ def c_to_f(c):
 # software or hardware SPI.
 
 # Raspberry Pi software SPI configuration.
-CLK = 25
-CS  = 24
-DO  = 18
-sensor = MAX31855.MAX31855(CLK, CS, DO)
-
+sensor = MAX31855.MAX31855(conf['pi']['CLK'], conf['pi']['CS'], conf['pi']['DO'])
 # Raspberry Pi hardware SPI configuration.
-#SPI_PORT   = 0
-#SPI_DEVICE = 0
-#sensor = MAX31855.MAX31855(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+#sensor = MAX31855.MAX31855(spi=SPI.SpiDev(conf['pi']['SPI_PORT'], conf['pi']['SPI_DEVICE']))
 
 
 
@@ -73,8 +66,15 @@ while True:
   #internal = sensor.readInternalC()
   print 'Thermocouple Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(temp, c_to_f(temp))
   #print '    Internal Temperature: {0:0.3F}*C / {1:0.3F}*F'.format(internal, c_to_f(internal))
-  if temp > WARNINGTEMP:
+  if temp > conf['temp']['max']:
     warning_text = "WARNING: Laser Cutter is hot, potential fire risk: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
     print warning_text
     subprocess.call(["/usr/local/bin/hipchat", warning_text])
-  time.sleep(10.0)
+    time.sleep(10) # wait 10 seconds
+  if temp < conf['temp']['min']:
+    warning_text = "WARNING: Laser Cutter is being exposed to freezing temperatures: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
+    print warning_text
+    subprocess.call(["/usr/local/bin/hipchat", warning_text])
+    time.sleep(60 * 5) # wait 5 minutes
+  else:
+    time.sleep(10.0) # normally check every 10 seconds
