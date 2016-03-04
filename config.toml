@@ -1,3 +1,10 @@
+# If logfile is defined, log temperature readings to the file
+log_file  = "/home/pi/temperature.log"
+#log_level = "DEBUG"
+
+# How often do we want to poll the temperature (in seconds)? Default = 1
+poll_rate = 5
+
 # Set some warning values for temperature (in Celsius)
 [temp]
 max = 100
