@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+echo "NOTE: This is designed to work only on a Raspberry Pi"
+
 sudo apt-get update
 sudo apt-get install build-essential python-dev python-pip python-smbus git
 
