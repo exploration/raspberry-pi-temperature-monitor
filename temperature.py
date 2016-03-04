@@ -59,7 +59,7 @@ my_ip = str(subprocess.check_output(ip_command, shell=True))
 
 
 
-# Loop measurements every ten seconds.
+# Loop measurements every second.
 print 'Press Ctrl-C to quit.'
 while True:
   temp = sensor.readTempC()
@@ -77,4 +77,4 @@ while True:
     subprocess.call(["/usr/local/bin/hipchat", warning_text])
     time.sleep(60 * 5) # wait 5 minutes
   else:
-    time.sleep(10.0) # normally check every 10 seconds
+    time.sleep(1) # normally check every 1 seconds
