@@ -37,6 +37,12 @@ else:
   # Just log to STDOUT
   logging.basicConfig(level=logging.INFO, format=LOGFORMAT)
 
+# Set log file rotate size
+if conf.get('log_file_rotate_size') == None:
+  log_file_rotate_size = 10000000 #10MB
+else:
+  log_file_rotate_size = conf['log_file_rotate_size']
+
 
 # Set up the temperature poll rate
 if conf.get('poll_rate'):
@@ -70,12 +76,7 @@ while True:
   if conf.get('log_file'):
     log_size = os.stat(conf.get('log_file')).st_size 
 
-    if conf.get('log_file_rotate_size') == None:
-      log_file_rotate_size = 10000000 #10MB
-    else:
-      log_file_rotate_size = conf['log_file_rotate_size']
-
-    if log_size > conf.get('log_file_rotate_size'):
+    if log_size > log_file_rotate_size:
       # Store log in hipchat
       if conf.get('hipchat').get('token') and conf.get('hipchat').get('room'):
         subprocess.call(['/usr/local/bin/hipfile', "--token", conf['hipchat']['token'], "--room", conf['hipchat']['room'], "--path", conf.get('log_file'), "--message", "{0} Temperature Log".format(device_name)])
