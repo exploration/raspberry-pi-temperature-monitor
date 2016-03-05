@@ -5,4 +5,4 @@ Basically just a modified version of [this Adafruit tutorial](https://learn.adaf
 
 Requires [this hipchat command line script](https://github.com/dmerand/dlm-dot-bin/blob/master/hipchat) to be set up properly + placed in `/usr/local/bin` .
 
-You might want to copy `config.toml.example` to `config.toml` and check on some of those settings, particularly the HipChat stuff.
+You might want to copy `config.example.toml` to `config.toml` and check on some of those settings, particularly the HipChat stuff.
