@@ -66,7 +66,7 @@ while True:
     log_size = os.stat(conf.get('log_file')).st_size 
 
     if conf.get('log_file_rotate_size') == None:
-      log_file_rotate_size = 1000000 #10MB
+      log_file_rotate_size = 10000000 #10MB
     else:
       log_file_rotate_size = conf['log_file_rotate_size']
 
