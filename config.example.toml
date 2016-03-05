@@ -1,3 +1,5 @@
+device_name = "LaserCam"
+
 # If logfile is defined, log temperature readings to the file
 log_file  = "/home/pi/temperature.log"
 log_file_rotate_size = 100000000 #bytes
@@ -27,3 +29,4 @@ SPI_DEVICE = 0
 [hipchat]
 #token = "YOUR TOKEN"
 #room  = "YOUR ROOM ID"
+#notify_names = "@Name1 @Name2"

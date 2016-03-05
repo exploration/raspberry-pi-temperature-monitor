@@ -18,6 +18,11 @@ def c_to_f(c):
 with open("/home/pi/raspberry-pi-temperature-monitor/config.toml") as conffile:
   conf = toml.loads(conffile.read())
 
+# Set device name
+if conf.get('device_name'):
+  device_name = conf['device_name']
+else:
+  device_name = "Unknown Device"
 
 # Set up logging if applicable
 LOGFORMAT = "%(asctime)s\t%(message)s"
@@ -73,7 +78,7 @@ while True:
     if log_size > conf.get('log_file_rotate_size'):
       # Store log in hipchat
       if conf.get('hipchat').get('token') and conf.get('hipchat').get('room'):
-        subprocess.call(['/usr/local/bin/hipfile', "--token", conf['hipchat']['token'], "--room", conf['hipchat']['room'], "--path", conf.get('log_file'), "--message", 'Laser Cutter Temperature Log'])
+        subprocess.call(['/usr/local/bin/hipfile', "--token", conf['hipchat']['token'], "--room", conf['hipchat']['room'], "--path", conf.get('log_file'), "--message", "{0} Temperature Log".format(device_name)])
       # Empty log file
       with open(conf.get('log_file'), 'w'):
         pass
@@ -85,7 +90,7 @@ while True:
   logging.info("{0:0.3F}*C\t{1:0.3F}*F".format(temp, c_to_f(temp)))
 
   if temp > conf['temp']['max']:
-    warning_text = "WARNING: Laser Cutter is hot, potential fire risk: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
+    warning_text = "{0} WARNING: {1] is hot, potential fire risk: {2:0.3F}*F. Webcam: http://{3}:8081".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
     logging.warning(warning_text)
     if conf.get('hipchat').get('room'):
       subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
@@ -93,7 +98,7 @@ while True:
   if temp < conf['temp']['min']:
     if might_be_freezing:
       might_be_freezing = None
-      warning_text = "WARNING: Laser Cutter is being exposed to freezing temperatures: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
+      warning_text = "{0} WARNING: {1} is being exposed to freezing temperatures: {2:0.3F}*F. Webcam: http://{3}:8081".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
       logging.warning(warning_text)
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
