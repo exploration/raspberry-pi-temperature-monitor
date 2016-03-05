@@ -20,3 +20,7 @@ DO  = 18
 # Hardware SPI
 SPI_PORT   = 0
 SPI_DEVICE = 0
+
+[hipchat]
+token = YOUR_TOKEN
+room  = YOUR_ROOM_ID
