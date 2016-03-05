@@ -1,7 +1,7 @@
 # If logfile is defined, log temperature readings to the file
 log_file  = "/home/pi/temperature.log"
-#log_level = "DEBUG"
 log_file_rotate_size = 100000000 #bytes
+#log_level = "DEBUG"
 
 # How often do we want to poll the temperature (in seconds)? Default = 1
 poll_rate = 1
