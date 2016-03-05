@@ -25,5 +25,5 @@ SPI_DEVICE = 0
 
 # HipChat Configuration Settings
 [hipchat]
-token = "YOUR TOKEN"
-room  = "YOUR ROOM ID"
+#token = "YOUR TOKEN"
+#room  = "YOUR ROOM ID"
