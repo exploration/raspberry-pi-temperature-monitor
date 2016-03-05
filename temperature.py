@@ -67,7 +67,7 @@ while True:
 
     if conf.get('log_file_rotate_size') == None:
       log_file_rotate_size = 1000000 #10MB
-    else
+    else:
       log_file_rotate_size = conf['log_file_rotate_size']
 
     if log_size > conf.get('log_file_rotate_size'):
@@ -87,14 +87,16 @@ while True:
   if temp > conf['temp']['max']:
     warning_text = "WARNING: Laser Cutter is hot, potential fire risk: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
     logging.warning(warning_text)
-    subprocess.call(["/usr/local/bin/hipchat", warning_text])
+    if conf.get('hipchat').get('room'):
+      subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
     time.sleep(10) # wait 10 seconds
   if temp < conf['temp']['min']:
     if might_be_freezing:
       might_be_freezing = None
       warning_text = "WARNING: Laser Cutter is being exposed to freezing temperatures: {0:0.3F}*F. Webcam: http://{1}:8081".format(c_to_f(temp), my_ip)
       logging.warning(warning_text)
-      subprocess.call(["/usr/local/bin/hipchat", warning_text])
+      if conf.get('hipchat').get('room'):
+        subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
     else:
       might_be_freezing = True
     time.sleep(60 * 5) # wait 5 more minutes to be sure

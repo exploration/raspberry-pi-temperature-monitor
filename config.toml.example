@@ -13,6 +13,8 @@ min = 0
 
 # Raspberry Pi SPI Config
 [pi]
+# Connect Method can be either "SOFTWARE" (default) or "HARDWARE"
+connect_method = "SOFTWARE"
 # Software SPI
 CLK = 25
 CS  = 24
@@ -21,6 +23,7 @@ DO  = 18
 SPI_PORT   = 0
 SPI_DEVICE = 0
 
+# HipChat Configuration Settings
 [hipchat]
-token = YOUR_TOKEN
-room  = YOUR_ROOM_ID
+token = "YOUR TOKEN"
+room  = "YOUR ROOM ID"
