@@ -18,11 +18,6 @@ def c_to_f(c):
 with open("/home/pi/raspberry-pi-temperature-monitor/config.toml") as conffile:
   conf = toml.loads(conffile.read())
 
-# Set device name
-if conf.get('device_name'):
-  device_name = conf['device_name']
-else:
-  device_name = "Unknown Device"
 
 # Set up logging if applicable
 LOGFORMAT = "%(asctime)s\t%(message)s"
@@ -38,15 +33,22 @@ else:
   logging.basicConfig(level=logging.INFO, format=LOGFORMAT)
 
 # Set log file rotate size
-if conf.get('log_file_rotate_size') == None:
-  log_file_rotate_size = 10000000 #10MB
-else:
+if conf.get('log_file_rotate_size'):
   log_file_rotate_size = conf['log_file_rotate_size']
+else:
+  log_file_rotate_size = 10000000 #10MB
+
+
+# Set device name
+if conf.get('device_name'):
+  device_name = conf['device_name']
+else:
+  device_name = "Unknown Device"
 
 
 # Set up the temperature poll rate
 if conf.get('poll_rate'):
-  poll_rate = conf.get('poll_rate')
+  poll_rate = conf['poll_rate']
 else:
   # Default to 10 seconds if none is set
   poll_rate = 10
