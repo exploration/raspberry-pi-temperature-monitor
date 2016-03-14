@@ -99,7 +99,7 @@ while True:
       logging.warning(warning_text)
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
-    time.sleep(60 * 5) # wait 5 more minutes in this case to be sure
+    time.sleep(60 * 10) # wait 10 more minutes in this case to be sure
   else:
     # Temperature is in normal range, store it, wait regular polling amount + try again
     last_temp = temp
