@@ -3,6 +3,8 @@ Monitors temperature + HipChats me when it's too high. Runs alongside a webcam s
 
 Basically just a modified version of [this Adafruit tutorial](https://learn.adafruit.com/max31855-thermocouple-python-library/overview)
 
+Follow [these instructions](https://github.com/foosel/OctoPrint/wiki/Setup-on-a-Raspberry-Pi-running-Raspbian) (the part about setting up the webcam) to set up the web cam.
+
 Requires [this hipchat command line script](https://github.com/dmerand/dlm-dot-bin/blob/master/hipchat) to be set up properly + placed in `/usr/local/bin` . If you're using log files, you'll also want to install the `hipfile` example from the [hipchat-go library](https://github.com/tbruyelle/hipchat-go) into `/usr/local/bin` .
 
 `setup.sh` does most of the setup, aside from copying in any necessary HipChat binaries/scripts. You might want to copy `config.example.toml` to `config.toml` and check on some of those settings, particularly the HipChat stuff.

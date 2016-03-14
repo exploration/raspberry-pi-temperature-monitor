@@ -88,14 +88,14 @@ while True:
 
   if temp > conf['temp']['max']:
     if last_temp > conf['temp']['max']:
-      warning_text = "{0} WARNING: {1} is hot, potential fire risk: {2:0.3F}*F. Webcam: http://{3}:8081".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
+      warning_text = "{0} WARNING: {1} is hot, potential fire risk: {2:0.3F}*F. Webcam: http://{3}?action=stream".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
       logging.warning(warning_text)
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
     time.sleep(30) #seconds
   if temp < conf['temp']['min'] :
     if last_temp < conf['temp']['min']:
-      warning_text = "{0} WARNING: {1} is being exposed to freezing temperatures: {2:0.3F}*F. Webcam: http://{3}:8081".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
+      warning_text = "{0} WARNING: {1} is being exposed to freezing temperatures: {2:0.3F}*F. Webcam: http://{3}?action=stream".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
       logging.warning(warning_text)
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
