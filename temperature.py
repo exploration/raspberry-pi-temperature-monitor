@@ -93,13 +93,15 @@ while True:
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
     time.sleep(30) #seconds
-  if temp < conf['temp']['min'] :
+  if temp < conf['temp']['min'] and temp > -25 :
+    # for some reason the thermocouple reads^^ below -25C sometimes, which is
+    # obviously bogus, so catch that too
     if last_temp < conf['temp']['min']:
       warning_text = "{0} WARNING: {1} is being exposed to freezing temperatures: {2:0.3F}*F. Webcam: http://{3}?action=stream".format(conf.get('hipchat').get('notify_names'), device_name, c_to_f(temp), my_ip)
       logging.warning(warning_text)
       if conf.get('hipchat').get('room'):
         subprocess.call(["/usr/local/bin/hipchat", "-r", conf['hipchat']['room'], warning_text])
-    time.sleep(60 * 10) # wait 10 more minutes in this case to be sure
+    time.sleep(60 * 1) # wait 1 more minute in this case to be sure
   else:
     # Temperature is in normal range, store it, wait regular polling amount + try again
     last_temp = temp
